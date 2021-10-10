@@ -1,48 +1,32 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import useLoggedin from "../../Hooks/useLoggedin";
 import userContext from "../../Context/User.context";
 import { Link } from "react-router-dom";
 
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
-import { getAllPosts, deletePost } from "../../API/blogapi";
+import { deletePost } from "../../API/blogapi";
+import useFetch from "../../Hooks/useFetchHook";
 
 function AllPosts({ single }) {
   const { setUser, user } = useContext(userContext);
   useLoggedin(setUser);
-  const [data, setData] = useState(null);
-  const [message, setMessage] = useState(null);
-  const [loading, setLoading] = useState(true);
-
   const history = useHistory();
 
-  useEffect(() => {
-    if (user && !user.ok) return "Invalid Session";
-    if (!user) return "Invalid Session";
+  let { username } = useParams();
 
-    if (user) {
-      const username = String(user.user.username)
-        .split(" ")[0]
-        .toLocaleLowerCase();
-      getAllPosts(`/blog/${username}/allposts`, {
-        userID: user.user._id,
-      }).then((res) => {
-        if (!res.data.ok) {
-          setMessage(res.data.message);
-          setLoading(false);
-        }
-        setData(res.data.posts);
-        setLoading(false);
-      });
-    }
-  }, [user]);
+  const [loading, message, data] = useFetch(`/blog/${username}/allposts`);
+
+  if (user && !user.ok) return "Invalid Session";
+  if (!user) return "Invalid Session";
 
   return (
     <div className="posts">
       <h1>All Posts</h1>
       <>
-        {!loading &&
-          data.map((e, i) => {
+        {loading &&
+          data &&
+          data.posts.map((e, i) => {
             return (
               <div className="post" key={i}>
                 <div className="content">

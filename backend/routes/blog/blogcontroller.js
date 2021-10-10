@@ -29,7 +29,7 @@ const createPost = async (req, res) => {
   }
 };
 
-// getall blogs for one user
+// !getall blogs for one user
 
 const getAllSingleUserPosts = async (req, res) => {
   const { userID } = req.body;
@@ -55,6 +55,8 @@ const getAllSingleUserPosts = async (req, res) => {
   });
 };
 
+// ! delete Post
+
 const deletePost = async (req, res) => {
   const { id } = req.body;
   if (!id)
@@ -71,10 +73,29 @@ const deletePost = async (req, res) => {
   });
 };
 
-// get Public
+//  ! Get one post // single
+
+const getSignlePost = async (req, res) => {
+  const { id } = req.body;
+
+  if (!id)
+    return res.json({
+      message: "Something Went Wrong",
+      ok: false,
+    });
+
+  const blog = await Post.findOne({ _id: id });
+
+  return res.json({
+    message: "Success",
+    ok: true,
+  });
+};
+
+// !get Public Posts
 
 const GetPublicPosts = async (req, res) => {
-  const allBlogs = await Post.find();
+  const allBlogs = await Post.find().sort({ created_at: 1 });
 
   return res.json({
     ok: true,
@@ -86,6 +107,8 @@ const CRUD = {
   createPost,
   getAllSingleUserPosts,
   deletePost,
+  GetPublicPosts,
+  getSignlePost,
 };
 
 module.exports = CRUD;

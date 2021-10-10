@@ -41,7 +41,7 @@ function App() {
             <Route path={`/blog/:user/create`} exact>
               <CreatePost />
             </Route>
-            <Route path={`/blog/:user/allposts`} exact>
+            <Route path={`/blog/:username/allposts`} exact>
               <AllPosts single={setSingleBlog} />
             </Route>
             <Route path={`/blog/public/posts/allposts`} exact>
