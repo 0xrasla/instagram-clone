@@ -1,3 +1,3 @@
-# Socio-RaSo
+# Code -Er
 
-## Made for coders
+## An social Media platform for programmers where you can share your thoughts
