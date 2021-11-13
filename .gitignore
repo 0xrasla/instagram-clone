@@ -1,5 +1,5 @@
 /backend/node_modules
-/frontend/node_modules
+/client/node_modules
 /backend/.env
-/frontend/README.md
-/frontend/.env
+/client/README.md
+/secret.json
