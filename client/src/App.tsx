@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./styles/output.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LoginHome, LogoutHome } from "./components/Auth/index";
+import React, { useState } from "react";
 
 function App() {
+  const [logined, setlogined] = useState(false);
+
+  const AuthPage = () => {
+    return (
+      <div className="text-2xl font-mono font-bold flex flex-col justify-end items-center pt-64 gap-9">
+        <h1>Code -Sta</h1>
+        <LoginHome login={() => setlogined} />
+        <LogoutHome />
+      </div>
+    );
+  };
+
+  if (!logined) return <AuthPage />;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <div className="inner">
+          <Routes>
+            <Route path="/" element={<AuthPage />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
